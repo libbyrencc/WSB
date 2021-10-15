@@ -1,5 +1,9 @@
 PIC 16B Project
 
+Group Member:
+1. Chencong Ren
+2. Linqiao Jiang
+
 # Tic-Tac-Toe
 . . .
 
