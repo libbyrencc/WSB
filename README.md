@@ -27,9 +27,11 @@ If things don’t 100% work out, which means that the algorithm is not making a 
 ## Resources Required
 
 1. Stock market data (both historical and real-time) from Alpaca:
+
 https://github.com/alpacahq/alpaca-trade-api-python
 
 2. The algorithm trading platform from Alpaca (paper trading):
+
 https://alpaca.markets/
 
 ## Tools and Skills Required
