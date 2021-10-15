@@ -79,7 +79,7 @@ Besides, The complete stock forecasting problem is complicated because various f
 
 ## Ethics
  
-**Should this app exist?**
+### Should this app exist?
  
 In our opinion, this app should exist. For sure, people who profit from the stock market through our models have the potential to benefit from the existence of our product. At the same time, someone's going to make money means someone's going to lose money, and those who lose money have the potential to be harmed from the existence of our product.
 
@@ -91,10 +91,10 @@ In our perspective, the world will become an overall better place because of the
 
 ## Tentative Timeline
 
-**Week 3**: Building programs that could get data from API and orders can be transmitted to the trading platform
+`Week 3`: Building programs that could get data from API and orders can be transmitted to the trading platform
 
-**Week 4-5**: Data analysis 
+`Week 4-5`: Data analysis 
 
-**Week 6-7**: Running some basic trading strategies
+`Week 6-7`: Running some basic trading strategies
 
-**Week 7-10**: Improve trading strategy by machine learning
+`Week 7-10`: Improve trading strategy by machine learning
