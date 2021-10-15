@@ -24,7 +24,7 @@ If everything works out for us exactly as you plan, the program runs properly, m
 
 If things don’t 100% work out, which means that the algorithm is not making a profit in the real-time market, but in backtesting, it will predict the stock price with a success rate > 50% in the future 5-30 mins. However, in the stock trading strategy, we have another solution which is called the public opinion trading system, which is to follow some government policies or some market sentiment of shareholders to trade.
 
-# Resources Required
+## Resources Required
 
 1. Stock market data (both historical and real-time) from Alpaca:
 https://github.com/alpacahq/alpaca-trade-api-python
@@ -32,14 +32,14 @@ https://github.com/alpacahq/alpaca-trade-api-python
 2. The algorithm trading platform from Alpaca (paper trading):
 https://alpaca.markets/
 
-# Tools and Skills Required
+## Tools and Skills Required
 
 * **Skill**: Machine learning, Linear Regression, Data-visualization DNN
 
 * **Python packages**: SQLite3,Tstable, scikit-learn
 
 
-# What You Will Learn
+## What You Will Learn
 
 The things we will learn by completing this project:
 
@@ -55,7 +55,7 @@ Three machine learning models we may use to predict our stocks:
 * Quadratic Discriminant Analysis (QDA)
 * K Nearest Neighbor (KNN)
 
-# Risks
+## Risks
 
 The models we train may only have good predictive accuracy in certain situations, but in real trading, their accuracy may be really low, and the degree of difference between the models is low either.
  
@@ -68,7 +68,7 @@ Besides, The complete stock forecasting problem is very complicated because vari
 3. Company news and rumors are very important drivers of stock trading. Specific company news happens all the time, but it doesn't come to you. So if you can follow the news in real time, or even know it in advance, it's a very good source of data for your stock trading.
 4. It is important to find some business cycles for investing in price movements over many years. For example, the cyclical volatility of pharmaceutical stocks.
 
-# Ethics
+## Ethics
  
 **Should this app exist?**
  
@@ -80,7 +80,7 @@ In our perspective, the world will become an overall better place because of the
  
 * Correspondingly prevent the internal personnel of stock companies to make use of their own authority to operate the abnormal trading behavior, carrying out financial fraud.
 
-# Tentative Timeline
+## Tentative Timeline
 
 **Week 3**: Building programs that could get data from API and orders can be transmitted to the trading platform
 
@@ -89,19 +89,3 @@ In our perspective, the world will become an overall better place because of the
 **Week 6-7**: Running some basic trading strategies
 
 **Week 7-10**: Improve trading strategy by machine learning
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
