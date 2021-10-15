@@ -54,7 +54,9 @@ The things we will learn by completing this project:
 Three machine learning models we may use to predict our stocks:
 
 * Simple Linear Analysis
+
 * Quadratic Discriminant Analysis (QDA)
+
 * K Nearest Neighbor (KNN)
 
 ## Risks
