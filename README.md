@@ -36,7 +36,7 @@ https://alpaca.markets/
 
 ## Tools and Skills Required
 
-* **Skill**: Machine learning, Linear Regression, Data-visualization DNN
+* `**Skill**`: Machine learning, Linear Regression, Data-visualization DNN
 
 * **Python packages**: SQLite3,Tstable, scikit-learn
 
