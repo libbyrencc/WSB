@@ -43,7 +43,7 @@ https://alpaca.markets/
 
 ## What You Will Learn
 
-The things we will learn by completing this project:
+### The things we will learn by completing this project:
 
 * Exploring Rolling Mean and Return Rate of Stocks
  
@@ -51,7 +51,7 @@ The things we will learn by completing this project:
  
 * Correlation Analysis — Does one competitor affect others?
  
-Three machine learning models we may use to predict our stocks:
+### Three machine learning models we may use to predict our stocks:
 
 * Simple Linear Analysis
 
@@ -65,12 +65,15 @@ The models we train may only have good predictive accuracy in certain situations
  
 One of the biggest problems in finance is the inability to quantify historical financial data. For example, for stock data, the most commonly used method is the K-chart, which contains four price data: high price, low price, open price, and close price. But beyond those four basic prices, all the data is likely to be supplemented by our imaginations.
  
-Besides, The complete stock forecasting problem is very complicated because various factors have different scales of influence on the final price:
+Besides, The complete stock forecasting problem is complicated because various factors have different scales of influence on the final price:
  
-1. Both high-frequency trading and algorithmic trading are carried out in a very short period of time (the interval is generally less than 1 day), so they are the main factors affecting price changes;
-2. Both opening and closing prices have their own calculation models -- whether in stocks or futures;
-3. Company news and rumors are very important drivers of stock trading. Specific company news happens all the time, but it doesn't come to you. So if you can follow the news in real time, or even know it in advance, it's a very good source of data for your stock trading.
-4. It is important to find some business cycles for investing in price movements over many years. For example, the cyclical volatility of pharmaceutical stocks.
+* Both high-frequency trading and algorithmic trading are carried out in a short period of time (the interval is generally less than 1 day), so they are the main factors affecting price changes;
+
+* Both opening and closing prices have their own calculation models -- whether in stocks or futures;
+
+* Company news and rumors are important drivers of stock trading. Specific company news happens all the time, but it doesn't come to you. So if you can follow the news in real time, or even know it in advance, it's a good source of data for your stock trading;
+
+* It is important to find some business cycles for investing in price movements over many years. For example, the cyclical volatility of pharmaceutical stocks.
 
 ## Ethics
  
