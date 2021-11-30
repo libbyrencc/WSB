@@ -1,9 +1,12 @@
 import alpaca_backtrader_api
 import backtrader as bt
 from datetime import datetime
-
-from py.trader.main import IS_BACKTEST, IS_LIVE,symbol,data0
-
+import sys 
+sys.path.append("..") 
+#from main import IS_BACKTEST, IS_LIVE,symbol,data0
+IS_BACKTEST = True
+IS_LIVE = False
+symbol = "TSLA"
 class SessionFilter(object):
     def __init__(self, data):
         pass
@@ -27,7 +30,7 @@ class Sma_Rsi_Cross(bt.Strategy):
     def log(self, txt, dt=None):
         dt = dt or self.data.datetime[0]
         dt = bt.num2date(dt)
-        #print('%s, %s' % (dt.isoformat(), txt))
+        print('%s, %s' % (dt.isoformat(), txt))
 
     def notify_trade(self, trade):
         self.log("placing trade for {}. target size: {}".format(

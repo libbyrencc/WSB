@@ -3,7 +3,7 @@ import backtrader as bt
 from datetime import datetime
 from strategies.Sma_Rsi import Sma_Rsi_Cross
 from strategies.Sma_Rsi import SessionFilter
-from strategies.Simple_Sma import SmaCross
+#from strategies.Simple_Sma import SmaCross
 
 
 #import 
