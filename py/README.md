@@ -16,7 +16,7 @@ symbol = "TSLA"               #stock ticker
 begindate=datetime(2021, 9, 1,9,30)      #start time if is backtest  
 enddate=datetime(2021, 11, 15,9,30)      #end time if is backtest  
 bt_timeframe=bt.TimeFrame.Minutes       #min time inteval  
-
+strategy_main=Sma_Rsi_Cross             #setting strategy to use
 ```
 py
 │   predictor.py
