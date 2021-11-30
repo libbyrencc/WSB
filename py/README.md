@@ -10,12 +10,12 @@ Three options:
  - live trade (IS_BACKTEST=False, IS_LIVE=True)
 
 
-IS_BACKTEST = True            #see information above
-IS_LIVE = False               #see inofrmation above
-symbol = "TSLA"               #stock ticker
-begindate=datetime(2021, 9, 1,9,30)      #start time if is backtest
-enddate=datetime(2021, 11, 15,9,30)      #end time if is backtest
-bt_timeframe=bt.TimeFrame.Minutes       #min time inteval
+IS_BACKTEST = True            #see information above  
+IS_LIVE = False               #see inofrmation above  
+symbol = "TSLA"               #stock ticker  
+begindate=datetime(2021, 9, 1,9,30)      #start time if is backtest  
+enddate=datetime(2021, 11, 15,9,30)      #end time if is backtest  
+bt_timeframe=bt.TimeFrame.Minutes       #min time inteval  
 
 ```
 py
