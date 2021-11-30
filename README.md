@@ -4,13 +4,16 @@ Group Member:
 1. Chencong Ren
 2. Linqiao Jiang
 
-# Tic-Tac-Toe
-. . .
-
-. x .
-
-. . o
-
+```
+WSB
+├───alpaca_trade_acoount        #store trade account data !!!confidential!!!
+├───notebook                    #jupyter notebook
+├───presentation                #store presentation data
+└───py                          #main trading part
+    └───trader
+        ├───analyzers
+        └───strategies
+```
 
 # Project Proposal
 
