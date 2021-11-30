@@ -1,3 +1,4 @@
+```
 py
 │   predictor.py
 │   __init__.py
@@ -16,5 +17,5 @@ py
     │   │   Simple_Sma.py
     │   │   Sma_Rsi.py
     │   │   __init__.py
-
+```
 
