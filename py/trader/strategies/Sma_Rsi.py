@@ -3,10 +3,9 @@ import backtrader as bt
 from datetime import datetime
 import sys 
 sys.path.append("..") 
-#from main import IS_BACKTEST, IS_LIVE,symbol,data0
-IS_BACKTEST = True
-IS_LIVE = False
-symbol = "TSLA"
+
+from setting import *
+
 class SessionFilter(object):
     def __init__(self, data):
         pass
@@ -33,13 +32,41 @@ class Sma_Rsi_Cross(bt.Strategy):
         print('%s, %s' % (dt.isoformat(), txt))
 
     def notify_trade(self, trade):
-        self.log("placing trade for {}. target size: {}".format(
-            trade.getdataname(),
-            trade.size))
+        if not trade.isclosed:
+            return
+
+        self.log('OPERATION PROFIT, GROSS %.2f, NET %.2f' %
+                 (trade.pnl, trade.pnlcomm))
 
     def notify_order(self, order):
-        print(f"Order notification. status{order.getstatusname()}.")
-        print(f"Order info. status{order.info}.")
+        if order.status in [order.Submitted, order.Accepted]:
+            # Buy/Sell order submitted/accepted to/by broker - Nothing to do
+            return
+
+        # Check if an order has been completed
+        # Attention: broker could reject order if not enough cash
+        if order.status in [order.Completed]:
+            if order.isbuy():
+                self.log(
+                    'BUY EXECUTED, Price: %.2f, Cost: %.2f, Comm %.2f' %
+                    (order.executed.price,
+                     order.executed.value,
+                     order.executed.comm))
+
+                self.buyprice = order.executed.price
+                self.buycomm = order.executed.comm
+            else:  # Sell
+                self.log('SELL EXECUTED, Price: %.2f, Cost: %.2f, Comm %.2f' %
+                         (order.executed.price,
+                          order.executed.value,
+                          order.executed.comm))
+
+            self.bar_executed = len(self)
+
+        elif order.status in [order.Canceled, order.Margin, order.Rejected]:
+            self.log('Order Canceled/Margin/Rejected')
+
+        self.order = None
     def notify_store(self, msg, *args, **kwargs):
         super().notify_store(msg, *args, **kwargs)
         self.log(msg)
@@ -77,9 +104,9 @@ class Sma_Rsi_Cross(bt.Strategy):
         # if fast crosses slow to the upside
         if not self.positionsbyname[symbol].size:
             if self.crossover > 0 or self.crossup > 0:
-                self.buy(data=data0, size=80)  # enter long
+                self.buy(size=80)  # enter long
 
         # in the market & cross to the downside
         if self.positionsbyname[symbol].size:
             if self.crossover <= 0 or self.crossdown < 0:
-                self.close(data=data0)  # close long position
+                self.close()  # close long position
