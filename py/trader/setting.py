@@ -26,5 +26,5 @@ from strategies.Sma_Rsi import *
 from strategies.macd_cross import *
 from strategies.Sma_Rsi_long_only import *
 
-strategy_main=macd_Cross
+strategy_main=Sma_Rsi_Cross_long
 

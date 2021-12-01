@@ -103,7 +103,7 @@ class Sma_Rsi_Cross_long(bt.Strategy):
         # if fast crosses slow to the upside
         if not self.position:
             if self.crossover > 0 or self.crossup > 0:
-                self.buy(size=(self.broker.get_cash()//self.data.close[0]))  # enter long 
+                self.buy(size=(self.broker.get_cash()*0.95//self.data.close[0]))  # enter long 
         # in the market & cross to the downside
         if self.position:
             if self.crossover <= 0 or self.crossdown < 0:

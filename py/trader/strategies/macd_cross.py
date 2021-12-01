@@ -89,7 +89,7 @@ class macd_Cross(bt.Strategy):
             condition1 = self.macd[-1] - self.signal[-1]
             condition2 = self.macd[0] - self.signal[0]
             if condition1 < 0 and condition2 > 0:
-                self.order = self.buy(size=(self.broker.get_cash()*0.9//self.data.close[0]))
+                self.order = self.buy(size=(self.broker.get_cash()*0.95//self.data.close[0]))
         else:
            condition = (self.dataclose[0] - self.buyprice) / self.dataclose[0]
            if condition > 0.05 or condition < -0.03:
