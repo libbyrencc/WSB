@@ -105,21 +105,21 @@ class Sma_Rsi_Cross(bt.Strategy):
             return
         # if fast crosses slow to the upside
         if not self.position:
-            if self.crossover > 0 and self.crossup > 0:
-                self.buy(size=(self.broker.get_cash()//self.data.close[0]))  # enter long
+            if self.crossover > 0 or self.crossup > 0:
+                self.buy(size=(self.broker.get_cash()*0.95//self.data.close[0]))  # enter long
             if self.crossover <= 0 and self.crossup < 0:
-                self.sell(size=(self.broker.get_cash()//self.data.close[0])/2) 
+                self.sell(size=(self.broker.get_cash()*0.95//self.data.close[0])) 
         
         
         if self.position.size <0:
             condition = (self.dataclose[0] - self.prePrice) / self.dataclose[0]
-            if condition > 0.03 or condition < -0.02:
+            if condition > 0.05 or condition < -0.01:
                self.order = self.close()
             if self.crossover > 0 or self.crossup > 0:
                 self.order=self.close()
         if self.position.size >0:
             condition = -(self.dataclose[0] - self.prePrice) / self.dataclose[0]
-            if condition > 0.03 or condition < -0.02:
+            if condition > 0.05 or condition < -0.01:
                self.order = self.close()
             if self.crossover <= 0 or self.crossup < 0:
                 self.order=self.close()

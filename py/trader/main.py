@@ -49,4 +49,4 @@ if __name__ == '__main__':
     result=cerebro.run()
     strat=result[0]
     printTradeAnalysis(strat.analyzers.ta.get_analysis())
-    #cerebro.plot(height= 30, iplot= False)
+    cerebro.plot(iplot= False)
