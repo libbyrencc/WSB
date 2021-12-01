@@ -1,4 +1,5 @@
 
+from datetime import datetime
 import sys 
 sys.path.append("..") 
 
@@ -12,7 +13,7 @@ class SessionFilter(object):
             return False  
         data.backwards()  
         return True 
-class Sma_Rsi_Cross(bt.Strategy):
+class Sma_Rsi_Cross_long(bt.Strategy):
     # list of parameters which are configurable for the strategy
     params = dict(
         pfast=5,  # period for the fast moving average
@@ -44,8 +45,6 @@ class Sma_Rsi_Cross(bt.Strategy):
         # Check if an order has been completed
         # Attention: broker could reject order if not enough cash
         if order.status in [order.Completed]:
-            self.startValue=self.broker.getvalue()
-            self.prePrice=self.dataclose[0]
             if order.isbuy():
                 self.log(
                     'BUY EXECUTED, Price: %.2f, Cost: %.2f, Comm %.2f' %
@@ -55,13 +54,12 @@ class Sma_Rsi_Cross(bt.Strategy):
 
                 self.buyprice = order.executed.price
                 self.buycomm = order.executed.comm
-            
             else:  # Sell
                 self.log('SELL EXECUTED, Price: %.2f, Cost: %.2f, Comm %.2f' %
                          (order.executed.price,
                           order.executed.value,
                           order.executed.comm))
-                self.shortprice = order.executed.price
+
             self.bar_executed = len(self)
 
         elif order.status in [order.Canceled, order.Margin, order.Rejected]:
@@ -80,7 +78,6 @@ class Sma_Rsi_Cross(bt.Strategy):
 
     def __init__(self):
         self.live_bars = False
-        self.dataclose = self.datas[0].close
         sma1 = bt.ind.SMA(self.data0, period=self.p.pfast)
         sma2 = bt.ind.SMA(self.data0, period=self.p.pslow)
         self.crossover = bt.ind.CrossOver(sma1, sma2,plotskip=True)
@@ -105,22 +102,9 @@ class Sma_Rsi_Cross(bt.Strategy):
             return
         # if fast crosses slow to the upside
         if not self.position:
-            if self.crossover > 0 and self.crossup > 0:
-                self.buy(size=(self.broker.get_cash()//self.data.close[0]))  # enter long
-            if self.crossover <= 0 and self.crossup < 0:
-                self.sell(size=(self.broker.get_cash()//self.data.close[0])/2) 
-        
-        
-        if self.position.size <0:
-            condition = (self.dataclose[0] - self.prePrice) / self.dataclose[0]
-            if condition > 0.03 or condition < -0.02:
-               self.order = self.close()
             if self.crossover > 0 or self.crossup > 0:
-                self.order=self.close()
-        if self.position.size >0:
-            condition = -(self.dataclose[0] - self.prePrice) / self.dataclose[0]
-            if condition > 0.03 or condition < -0.02:
-               self.order = self.close()
-            if self.crossover <= 0 or self.crossup < 0:
-                self.order=self.close()
-        
+                self.buy(size=(self.broker.get_cash()//self.data.close[0]))  # enter long 
+        # in the market & cross to the downside
+        if self.position:
+            if self.crossover <= 0 or self.crossdown < 0:
+                self.close()  # close long position

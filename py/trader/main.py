@@ -1,9 +1,3 @@
-
-import alpaca_backtrader_api
-import backtrader as bt
-from datetime import datetime
-
-from backtrader import strategy
 from setting import *
 
 from analyzers.trader_analysis import printTradeAnalysis

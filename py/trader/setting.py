@@ -16,13 +16,15 @@ ALPACA_SECRET_KEY = "NPKEgtQyt3fsRodbOqn4d46V19XI5W9S8Cv64dDT"
 
 IS_BACKTEST = True
 IS_LIVE = False
-symbol = "TSLA"
-begindate=datetime(2021, 9, 1,9,30)
-enddate=datetime(2021, 11, 15,9,30)
+symbol = "XPEV"
+begindate=datetime(2021, 1, 1,9,30)
+enddate=datetime(2021, 11, 30,9,30)
 bt_timeframe=bt.TimeFrame.Minutes
 
 from strategies.Sma_Rsi import *
-from strategies.Simple_Sma import *
+#from strategies.Simple_Sma import *
+from strategies.macd_cross import *
+from strategies.Sma_Rsi_long_only import *
 
-strategy_main=Sma_Rsi_Cross
+strategy_main=macd_Cross
 
