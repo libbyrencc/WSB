@@ -1,37 +1,70 @@
 import alpaca_backtrader_api
 import backtrader as bt
 from datetime import datetime
+import sys 
+sys.path.append("..") 
 
-ALPACA_API_KEY ="PK8SSSXD3FX164IYREJ5"
-ALPACA_SECRET_KEY ="NPKEgtQyt3fsRodbOqn4d46V19XI5W9S8Cv64dDT"
-ALPACA_PAPER = True
+from setting import *
+
 
 class SmaCross(bt.SignalStrategy):
     def __init__(self):
         sma1, sma2 = bt.ind.SMA(period=10), bt.ind.SMA(period=30)
         crossover = bt.ind.CrossOver(sma1, sma2)
         self.signal_add(bt.SIGNAL_LONG, crossover)
+    def log(self, txt, dt=None):
+         dt = dt or self.data.datetime[0]
+         dt = bt.num2date(dt)
+         print('%s, %s' % (dt.isoformat(), txt))
 
+    def notify_trade(self, trade):
+         if not trade.isclosed:
+             return
 
-cerebro = bt.Cerebro()
-cerebro.addstrategy(SmaCross)
+         self.log('OPERATION PROFIT, GROSS %.2f, NET %.2f' %
+                  (trade.pnl, trade.pnlcomm))
 
-store = alpaca_backtrader_api.AlpacaStore(
-    key_id=ALPACA_API_KEY,
-    secret_key=ALPACA_SECRET_KEY,
-    paper=ALPACA_PAPER
-)
+    def notify_order(self, order):
+         if order.status in [order.Submitted, order.Accepted]:
+             # Buy/Sell order submitted/accepted to/by broker - Nothing to do
+             return
 
-if not ALPACA_PAPER:
-    broker = store.getbroker()  # or just alpaca_backtrader_api.AlpacaBroker()
-    cerebro.setbroker(broker)
+         # Check if an order has been completed
+         # Attention: broker could reject order if not enough cash
+         if order.status in [order.Completed]:
+             if order.isbuy():
+                 self.log(
+                     'BUY EXECUTED, Price: %.2f, Cost: %.2f, Comm %.2f' %
+                     (order.executed.price,
+                      order.executed.value,
+                      order.executed.comm))
 
-DataFactory = store.getdata  # or use alpaca_backtrader_api.AlpacaData
-data0 = DataFactory(dataname='AAPL', historical=True, fromdate=datetime(
-    2021, 1, 1), timeframe=bt.TimeFrame.Days)
-cerebro.adddata(data0)
+                 self.buyprice = order.executed.price
+                 self.buycomm = order.executed.comm
+             else:  # Sell
+                 self.log('SELL EXECUTED, Price: %.2f, Cost: %.2f, Comm %.2f' %
+                          (order.executed.price,
+                           order.executed.value,
+                           order.executed.comm))
 
-print('Starting Portfolio Value: %.2f' % cerebro.broker.getvalue())
-cerebro.run()
-print('Final Portfolio Value: %.2f' % cerebro.broker.getvalue())
-cerebro.plot(iplot=False)
+             self.bar_executed = len(self)
+
+         elif order.status in [order.Canceled, order.Margin, order.Rejected]:
+             self.log('Order Canceled/Margin/Rejected')
+
+         self.order = None
+    def notify_store(self, msg, *args, **kwargs):
+         super().notify_store(msg, *args, **kwargs)
+         self.log(msg)
+
+    def stop(self):
+         print('==================================================')
+         print('Starting Value - %.2f' % self.broker.startingcash)
+         print('Ending   Value - %.2f' % self.broker.getvalue())
+         print('==================================================')
+         
+    def notify_data(self, data, status, *args, **kwargs):
+        super().notify_data(data, status, *args, **kwargs)
+        print('*' * 5, 'DATA NOTIF:', data._getstatusname(status), *args)
+        if data._getstatusname(status) == "LIVE":
+            self.live_bars = True

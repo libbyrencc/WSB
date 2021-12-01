@@ -6,5 +6,5 @@ APCA_API_BASE_URL: https://paper-api.alpaca.markets
 APCA_API_DATA_URL: https://data.alpaca.markets
 
 
-Account:libbyrencc@gmail.com
-Password:WSB123456789
+Account:XXXXX
+Password:XXXXX
