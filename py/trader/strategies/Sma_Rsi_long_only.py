@@ -78,8 +78,10 @@ class Sma_Rsi_Cross_long(bt.Strategy):
 
     def __init__(self):
         self.live_bars = False
+        #add indicate here
         sma1 = bt.ind.SMA(self.data0, period=self.p.pfast)
         sma2 = bt.ind.SMA(self.data0, period=self.p.pslow)
+        #not plot all lines or the vis will be too big
         self.crossover = bt.ind.CrossOver(sma1, sma2,plotskip=True)
 
         rsi = bt.indicators.RSI(period=self.p.rsi_per,
@@ -97,14 +99,14 @@ class Sma_Rsi_Cross_long(bt.Strategy):
 
     def next(self):
         if not self.live_bars and not IS_BACKTEST:
-            # only run code if we have live bars (today's bars).
-            # ignore if we are backtesting
             return
-        # if fast crosses slow to the upside
+        # if sma and rsi all crossover
         if not self.position:
             if self.crossover > 0 or self.crossup > 0:
-                self.buy(size=(self.broker.get_cash()*0.95//self.data.close[0]))  # enter long 
-        # in the market & cross to the downside
+                #use 95% cash to open positions
+                self.buy(size=(self.broker.get_cash()*0.95//self.data.close[0]))  
+                
+        # otherwise
         if self.position:
             if self.crossover <= 0 or self.crossdown < 0:
                 self.close()  # close long position

@@ -13,7 +13,6 @@ class SessionFilter(object):
         data.backwards()  
         return True 
 class Sma_Rsi_Cross(bt.Strategy):
-    # list of parameters which are configurable for the strategy
     params = dict(
         pfast=5,  # period for the fast moving average
         pslow=15,   # period for the slow moving average
@@ -38,11 +37,8 @@ class Sma_Rsi_Cross(bt.Strategy):
 
     def notify_order(self, order):
         if order.status in [order.Submitted, order.Accepted]:
-            # Buy/Sell order submitted/accepted to/by broker - Nothing to do
+            
             return
-
-        # Check if an order has been completed
-        # Attention: broker could reject order if not enough cash
         if order.status in [order.Completed]:
             self.startValue=self.broker.getvalue()
             self.prePrice=self.dataclose[0]
@@ -81,8 +77,10 @@ class Sma_Rsi_Cross(bt.Strategy):
     def __init__(self):
         self.live_bars = False
         self.dataclose = self.datas[0].close
+        #add indicate here
         sma1 = bt.ind.SMA(self.data0, period=self.p.pfast)
         sma2 = bt.ind.SMA(self.data0, period=self.p.pslow)
+         #not plot all lines or the vis will be too big
         self.crossover = bt.ind.CrossOver(sma1, sma2,plotskip=True)
 
         rsi = bt.indicators.RSI(period=self.p.rsi_per,
@@ -100,27 +98,32 @@ class Sma_Rsi_Cross(bt.Strategy):
 
     def next(self):
         if not self.live_bars and not IS_BACKTEST:
-            # only run code if we have live bars (today's bars).
-            # ignore if we are backtesting
             return
-        # if fast crosses slow to the upside
+        #if we do not have positions
         if not self.position:
             if self.crossover > 0 or self.crossup > 0:
-                self.buy(size=(self.broker.get_cash()*0.95//self.data.close[0]))  # enter long
+                #open long position
+                self.buy(size=(self.broker.get_cash()*0.95//self.data.close[0]))  
             if self.crossover <= 0 and self.crossup < 0:
+                #open short position
                 self.sell(size=(self.broker.get_cash()*0.95//self.data.close[0])) 
         
-        
+        #if we have short positions
         if self.position.size <0:
             condition = (self.dataclose[0] - self.prePrice) / self.dataclose[0]
+            # stop loss/ take profit
             if condition > 0.05 or condition < -0.01:
                self.order = self.close()
+            #the indicator's change
             if self.crossover > 0 or self.crossup > 0:
                 self.order=self.close()
+         #if we have long positions
         if self.position.size >0:
             condition = -(self.dataclose[0] - self.prePrice) / self.dataclose[0]
+            # stop loss/ take profit
             if condition > 0.05 or condition < -0.01:
                self.order = self.close()
+               #the indicator's change
             if self.crossover <= 0 or self.crossup < 0:
                 self.order=self.close()
         

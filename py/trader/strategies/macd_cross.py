@@ -14,6 +14,7 @@ class macd_Cross(bt.Strategy):
         mperiod=9   #period for MACD
     )
 
+    #log function
     def log(self, txt, dt=None):
         dt = dt or self.data.datetime[0]
         dt = bt.num2date(dt)
@@ -27,9 +28,7 @@ class macd_Cross(bt.Strategy):
                  (trade.pnl, trade.pnlcomm))
 
     def notify_order(self, order):
-        if order.status in [order.Submitted, order.Accepted]:
-            # Buy/Sell order submitted/accepted to/by broker - Nothing to do
-            return
+
 
         # Check if an order has been completed
         # Attention: broker could reject order if not enough cash
@@ -44,7 +43,7 @@ class macd_Cross(bt.Strategy):
                 self.buyprice = order.executed.price
                 self.buycomm = order.executed.comm
                 self.bar_executed_close = self.dataclose[0]
-            else:  # Sell
+            else:  
                 self.log('SELL EXECUTED, Price: %.2f, Cost: %.2f, Comm %.2f' %
                          (order.executed.price,
                           order.executed.value,
@@ -82,15 +81,16 @@ class macd_Cross(bt.Strategy):
 
     def next(self):
         if not self.live_bars and not IS_BACKTEST:
-            # only run code if we have live bars (today's bars).
-            # ignore if we are backtesting
+            #do nothing while backtest
             return
         if not self.position:
             condition1 = self.macd[-1] - self.signal[-1]
             condition2 = self.macd[0] - self.signal[0]
             if condition1 < 0 and condition2 > 0:
+                #use 95% cash to open
                 self.order = self.buy(size=(self.broker.get_cash()*0.95//self.data.close[0]))
         else:
+            #take profit/stop loss
            condition = (self.dataclose[0] - self.buyprice) / self.dataclose[0]
            if condition > 0.03 or condition < -0.01:
                self.order = self.close()
